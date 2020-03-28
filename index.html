@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+
+    </header>
+    <main>
+        <div class="divWrapper" id="xx">
+
+        </div>
+
+    </main>
+    <footer>
+
+    </footer>
+    <script>
+        var keys = {
+            '0':{0:'q',1:'w',2:'e',3:'r',4:'t',5:'y',6:'u',7:'i',8:'o',9:'p',length:10},
+            '1':{0:'a',1:'s',2:'d',3:'f',4:'g',5:'h',6:'j',7:'k',8:'l',length:9},
+            '2':{0:'z',1:'x',2:'c',3:'v',4:'b',5:'n',6:'m',length:7},
+            length: 3
+        }
+        var hash = {
+            'q': 'qq.com',
+            'w': 'weibo.com',
+            'e': 'ele.me',
+            'r': 'renren.com',
+            't': 'tianya.com',
+            'y': 'youtube.com',
+            'u': 'uc.com',
+            'i': 'iqiyi.com',
+            'o': 'opera.com',
+            'p': undefined,
+            'a': 'acfun.tv',
+            's': 'sohu.com',
+            'z': 'zhihu.com',
+            'm': 'mcdonalds.com',
+        }
+        //取出localStorage 中的zzz对应的 hash
+        hashInLocalStorage = JSON.parse(localStorage.getItem('zzz') || 'null');
+        if (hashInLocalStorage){
+            hash=hashInLocalStorage;
+        }
+        //遍历 keys, 生成 kbd 标签
+        index=0;
+        while (index<keys['length']){
+            div1 = document.createElement('div');
+            xx.appendChild(div1);
+            row= keys[index];
+            index2=0;
+            while (index2< row['length'] ) {
+                kbd = document.createElement('kbd');
+                kbd.textContent = row[index2];
+                buttonX=document.createElement('button');
+                buttonX.textContent='编辑';
+				//alert(buttonX.id);
+                buttonX.id = row[index2];
+                buttonX.onclick= function(zxkjcn){
+                    //zxkjcn['target']就是用户点击的元素
+                    key =zxkjcn['target']['id'];
+                    x = prompt('给我一个网址');
+                    hash[key] = x ; //hash变更
+                    localStorage.setItem('zzz', JSON.stringify(hash));
+                }
+                kbd.appendChild(buttonX);
+                div1.appendChild(kbd);
+                index2 = index2 + 1;
+            }
+            index=index+1;
+        }
+        //监听功能
+        document.onkeypress=function(zxkjcn) {
+            console.log('你输入了一个键')//打印
+            key = zxkjcn['key'];
+            website = hash[key];
+           // location.href= 'http://'+website;
+            //新打开一界面
+            window.open('http://'+website,'_blank')
+
+        }
+
+    </script>
+</body>
+</html>
