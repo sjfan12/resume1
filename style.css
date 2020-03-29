@@ -5,12 +5,23 @@
 a{
     text-decoration: none;
 }
+body{
+    height: 100vh;
+    background: grey url(./imgs/sky.jpg) no-repeat center center; /*从两个方向居中。水平和
+    和垂直*/
+    background-size: cover;/*自适应图片，充满整个页面*/
+}
+.divWrapper{
+    /*增加一个透明的白*/
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+}
 kbd{
     border: 1px solid red;
     width: 4em; height: 4em;
     display: inline-block;
     position: relative;
-    text-transform: uppercase;
+    text-transform: uppercase;/*字变成大写*/
 }
 kbd > button{
     position: absolute;
@@ -23,14 +34,53 @@ kbd:hover > button{
 }
 main{
     text-align: center;
+    /*在整个键盘块的父元素做如下操作*/
+    display: flex;/*变成一个弹性盒*/
+    align-items: center; /*键盘文字上下居中*/
+    justify-content: center;
+    /*因为main太矮了*/
+    height: 100vh;
 }
 #xx{
     display: inline-block;
 }
 #xx> div:nth-child(2){
-    margin-left: 2em;
+    margin-left: -22px;
 }
 #xx > div:nth-child(3){
-    margin-left: 4em;
+    margin-left: -80px;
 }
+.key {
+    width: 50px;
+    height: 40px;
+    background: linear-gradient(to bottom, #292929 0%, #111111 100%);
+    border: 1px solid #373737;
+    color: #C5C5C5;
+    border-radius: 7px;
+    box-shadow: 0 0 0 1px #1A1B1C, 0 0 0 2px #1F2020, 0 3px 2px #080808;
+    /*display: inline-flex;*/
+   /* align-items: center; /*键盘文字上下居中*/
+   /* justify-content: center; /*键盘文字水平居中*/
+    font-size: 16px;
+    font-family: Helvetica;
+    position: relative;
 
+}
+.row{
+    margin: 16px;
+}
+.row .key{
+    margin: 0 10px;
+}
+.key img{
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    left: 4px;
+    bottom: 2px;
+}
+.key .text{
+    position: absolute;
+    left: 4px;
+    top: 2px;
+}
