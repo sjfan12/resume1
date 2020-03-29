@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Keyboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+
+</header>
+<main>
+    <div class="divWrapper" id="xx"></div>
+
+
+</main>
+<footer>
+
+</footer>
+<script>
+    //1. 初始化
+    var hashA=init();
+    var keys = hashA['keys'];
+    var hash = hashA['hash'];
+
+    //2. 生成键盘
+    //遍历 keys, 生成 kbd 标签
+        generateKeyboard(keys, hash);
+
+    //3. 监听功能
+    listenToUser(hash);
+
+    //下面是工具函数
+
+    function init() {
+        var keys = {
+            '0':{0:'q',1:'w',2:'e',3:'r',4:'t',5:'y',6:'u',7:'i',8:'o',9:'p',length:10},
+            '1':{0:'a',1:'s',2:'d',3:'f',4:'g',5:'h',6:'j',7:'k',8:'l',length:9},
+            '2':{0:'z',1:'x',2:'c',3:'v',4:'b',5:'n',6:'m',length:7},
+            length: 3
+        }
+        var hash = {
+            'q': 'qq.com',
+            'w': 'weibo.com',
+            'e': 'ele.me',
+            'r': 'renren.com',
+            't': 'tianya.com',
+            'y': 'youtube.com',
+            'u': 'uc.com',
+            'i': 'iqiyi.com',
+            'o': 'opera.com',
+            'p': undefined,
+            'a': 'acfun.tv',
+            's': 'sohu.com',
+            'z': 'zhihu.com',
+            'm': 'mcdonalds.com',
+        }
+        //取出localStorage 中的zzz对应的 hash
+        var hashInLocalStorage = getFromLocalStorage('zzz');
+        if (hashInLocalStorage){
+            hash=hashInLocalStorage;
+        }
+        return{
+            "keys": keys,
+            "hash": hash
+        }
+    }
+    function getFromLocalStorage(name){
+        return  JSON.parse(localStorage.getItem(name) || 'null')
+    }
+    function tag(tagName) {
+        return document.createElement(tagName);
+    }
+    function creatSpan(textContent) {
+        var span = tag('span');
+        span.textContent = textContent;
+        span.className='text';
+        return span;
+    }
+    function creatButton(id) {
+        var buttonX= tag('button');
+        buttonX.textContent='编辑';
+        //alert(buttonX.id);
+        buttonX.id = id;
+        buttonX.onclick= function(zxkjcn) {
+            //zxkjcn['target']就是用户点击的元素
+            var button2 = zxkjcn['target'];
+            //当编辑后图标要改变
+            var img2 = button2.previousSibling;
+            var key = button2['id'];
+            var x = prompt('给我一个网址');
+            hash[key] = x; //hash变更
+            img2.src = 'http://' + x + '/favicon.ico';
+            img2.onerror = function (xxx) {
+                xxx.target.src = "//i.loli.net/2020/03/28/rfMYXITtAbi7We2.png";
+            }
+            //zzz这个库用来存储编辑的网址
+            localStorage.setItem('zzz', JSON.stringify(hash));
+        }
+            return buttonX;
+    }
+    function creatImage(domain) {
+        var imgX = tag('img');
+        if(domain){
+            imgX.src ='http://' + domain + '/favicon.ico';
+        }else{
+            imgX.src="//i.loli.net/2020/03/28/rfMYXITtAbi7We2.png";
+        }
+        //如果图片下载失败
+        imgX.onerror = function(xxx){
+            xxx.target.src= "//i.loli.net/2020/03/28/rfMYXITtAbi7We2.png";
+        }
+        return imgX;
+    }
+    function generateKeyboard(keys, hash) {
+        for (var index=0;index<keys['length'];index=index+1){
+            var div1 = tag('div');  //var声明这个变量
+            div1.className='row';
+            xx.appendChild(div1);
+
+            var row= keys[index];
+            for(var index2=0; index2< row['length']; index2 = index2 + 1){
+                var span = creatSpan(row[index2]);
+
+                var buttonX = creatButton(row[index2]);
+
+                var imgX = creatImage(hash[row[index2]]);
+
+                var kbd = tag('kbd');
+                //将文字包起来
+                //将span放到kbd里
+                kbd.appendChild(span)
+                kbd.className = 'key';//每个键盘定义一个类名
+
+                kbd.appendChild(imgX);
+                kbd.appendChild(buttonX);
+                div1.appendChild(kbd);
+
+            }
+        }
+    }
+    function listenToUser(hash){
+        document.onkeypress=function(zxkjcn) {
+            console.log('你输入了一个键')//打印
+            var key = zxkjcn['key'];
+            var website = hash[key];
+            // location.href= 'http://'+website;
+            //新打开一界面
+            window.open('http://'+website,'_blank')
+        }
+    }
+
+</script>
+</body>
+</html>
